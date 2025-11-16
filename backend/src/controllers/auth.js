@@ -90,7 +90,7 @@ export const signIn = async (req, res) => {
 export const signOut = async (req, res) => {
   try {
     // get refresh token from cookie
-    const token = req.cookies.refreshToken; //req.cookies populated by cookie-parser middleware
+    const token = req.cookies?.refreshToken; //req.cookies populated by cookie-parser middleware
     if (!token) {
       return res.status(400).json({ message: 'Refresh token not provided' });
     }

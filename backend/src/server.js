@@ -4,6 +4,7 @@ import { connectDB } from "./libs/db.js";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
 import cookieParser from "cookie-parser";
+import { secureRoute } from "./middlewares/auth.js";
 
 dotenv.config({ override: true });
 const app = express();
@@ -20,6 +21,9 @@ app.get("/", (req, res) => {
 
 // public routes
 app.use("/api/auth", authRoutes);
+
+// private routes
+app.use(secureRoute);
 app.use("/api/user", userRoutes);
 
 
