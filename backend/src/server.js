@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
 import cookieParser from "cookie-parser";
 import { secureRoute } from "./middlewares/auth.js";
+import cors from "cors";
 
 dotenv.config({ override: true });
 const app = express();
@@ -13,6 +14,10 @@ const PORT = process.env.PORT || 3006;
 // Middleware to parse JSON requests
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+}));
 
 // Sample route
 app.get("/", (req, res) => {

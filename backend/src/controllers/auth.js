@@ -50,12 +50,12 @@ export const signIn = async (req, res) => {
     // check existing user in DB
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'User is not existed' });
     }
     // compare password with hashed password in DB
     const passwordMatch = await bcrypt.compare(password, user.hashedPassword);
     if (!passwordMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: 'Username or password is not correct' });
     }
     // if all good, create JWT tokens
     const accessToken = jwt.sign(
@@ -97,7 +97,7 @@ export const signOut = async (req, res) => {
     // delete refresh token in session
     await Session.deleteOne({ refreshToken: token });
     // delete cookie
-    res.clearCookies('refreshToken');
+    res.clearCookie('refreshToken');    
     return res.status(204).json({ message: 'Signed out successfully' });
   } catch (error) {
     console.log("SignOut went wrong!",error);
